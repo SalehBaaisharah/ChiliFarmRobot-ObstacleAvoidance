@@ -10,7 +10,7 @@
 // Declare the motors
 WbDeviceTag wheel1, wheel2, wheel3, wheel4;
 
-// Declare the range finders
+// Declare the range finder sensors
 WbDeviceTag right_finder, left_finder, front_finder;
 
 // Declare the distance sensors
@@ -24,7 +24,7 @@ int max_speed = 10;
 
 // Declare the threshold for the range finders
 double obstacle_threshold = 0.5; // 0.5 meters
-double obstacle_in_row_threshold = 0.2; // Add an appropriate value
+double obstacle_in_row_threshold = 0.2;
 
 // Declare the counters
 int front_obstacle_counter = 0;
@@ -34,7 +34,7 @@ int left_obstacle_counter = 0;
 // Define an array to store obstacle counts for each wheel diameter
 int obstacle_counts[6];
 
-// Function to move all the wheels forward
+// To move all the wheels forward
 void move_forward() {
   wb_motor_set_velocity(wheel1, max_speed);
   wb_motor_set_velocity(wheel2, max_speed);
@@ -42,7 +42,7 @@ void move_forward() {
   wb_motor_set_velocity(wheel4, max_speed);
 }
 
-// Function to move all the wheels backward
+// To move all the wheels backward
 void move_backward() {
   wb_motor_set_velocity(wheel1, -max_speed);
   wb_motor_set_velocity(wheel2, -max_speed);
@@ -51,7 +51,7 @@ void move_backward() {
   printf("Moving backward\n");
 }
 
-// Function to turn the robot right
+// To turn the robot right
 void turn_right() {
   wb_motor_set_velocity(wheel1, -max_speed);
   wb_motor_set_velocity(wheel2, max_speed);
@@ -60,7 +60,7 @@ void turn_right() {
   printf("Turning right\n");
 }
 
-// Function to turn the robot left
+// To turn the robot left
 void turn_left() {
   wb_motor_set_velocity(wheel1, max_speed);
   wb_motor_set_velocity(wheel2, -max_speed);
@@ -69,9 +69,8 @@ void turn_left() {
   printf("Turning left\n");
 }
 
-// Function to perform a U-turn
+// To perform a U-turn
 void performTurn(bool anti) {
-  // Get the initial time
   double initial_time = wb_robot_get_time();
   double turn_duration = 0.84; // Adjust this value as needed
 
@@ -102,7 +101,7 @@ void performTurn(bool anti) {
   printf("U-turn\n");
 }
 
-// Function to stop all the motors
+// To stop all the motors
 void halt_motors() {
   wb_motor_set_velocity(wheel1, 0);
   wb_motor_set_velocity(wheel2, 0);
@@ -112,51 +111,41 @@ void halt_motors() {
 }
 
 int main(int argc, char **argv) {
-  // Initialize the robot
   wb_robot_init();
 
-  // Get the device tags for the motors
   wheel1 = wb_robot_get_device("wheel1");
   wheel2 = wb_robot_get_device("wheel2");
   wheel3 = wb_robot_get_device("wheel3");
   wheel4 = wb_robot_get_device("wheel4");
 
-  // Enable the motors
   wb_motor_set_position(wheel1, INFINITY);
   wb_motor_set_position(wheel2, INFINITY);
   wb_motor_set_position(wheel3, INFINITY);
   wb_motor_set_position(wheel4, INFINITY);
 
-  // Get the device tags for the range finders
   right_finder = wb_robot_get_device("right_finder");
   left_finder = wb_robot_get_device("left_finder");
   front_finder = wb_robot_get_device("front_finder");
 
-  // Enable the range finders
   wb_range_finder_enable(right_finder, TIME_STEP);
   wb_range_finder_enable(left_finder, TIME_STEP);
   wb_range_finder_enable(front_finder, TIME_STEP);
   printf("Range finders enabled\n");
 
-  // Get the device tags for the distance sensors
   front_distance_sensor = wb_robot_get_device("front_distance_sensor");
   left_distance_sensor = wb_robot_get_device("left_distance_sensor");
   right_distance_sensor = wb_robot_get_device("right_distance_sensor");
 
-  // Enable the distance sensors
   wb_distance_sensor_enable(front_distance_sensor, TIME_STEP);
   wb_distance_sensor_enable(left_distance_sensor, TIME_STEP);
   wb_distance_sensor_enable(right_distance_sensor, TIME_STEP);
   printf("Distance sensors enabled\n");
 
-  // Get the device tag for the gyro sensor
   gyro = wb_robot_get_device("gyro");
 
-  // Enable the gyro sensor
   wb_gyro_enable(gyro, TIME_STEP);
   printf("Gyro sensor enabled\n");
 
-  // Declare the current state of the robot
   typedef enum RobotState {
     MOVE_FORWARD,
     TURN_RIGHT,
@@ -174,19 +163,16 @@ int main(int argc, char **argv) {
   // Declare a flag to perform anti u-turn
   bool performAntiUTurn = false;
 
-  // Main loop
   while (wb_robot_step(TIME_STEP) != -1) {
-    // Reset the counters before each iteration
+
     front_obstacle_counter = 0;
     right_obstacle_counter = 0;
     left_obstacle_counter = 0;
 
-    // Read the values of the range finders
     const float *right_range = wb_range_finder_get_range_image(right_finder);
     const float *left_range = wb_range_finder_get_range_image(left_finder);
     const float *front_range = wb_range_finder_get_range_image(front_finder);
 
-    // Get the values from the distance sensors
     double front_distance = wb_distance_sensor_get_value(front_distance_sensor);
     double left_distance = wb_distance_sensor_get_value(left_distance_sensor);
     double right_distance = wb_distance_sensor_get_value(right_distance_sensor);
@@ -201,7 +187,6 @@ int main(int argc, char **argv) {
         printf("Obstacle detected on right side.\n");
     }
 
-    // Then in your main loop:
     bool obstacle_detected = false;
     int total_obstacles = 0;
     int total_avoided = 0;
@@ -251,14 +236,14 @@ int main(int argc, char **argv) {
 
         case TURN_RIGHT:
             turn_right();
-            wb_robot_step(TIME_STEP * 3);  // Adjust as per requirement
+            wb_robot_step(TIME_STEP * 3);  
             current_state = MOVE_FORWARD;
             printf("Turn completed. Moving forward.\n");
             break;
 
         case TURN_LEFT:
             turn_left();
-            wb_robot_step(TIME_STEP * 3);  // Adjust as per requirement
+            wb_robot_step(TIME_STEP * 3);  
             current_state = MOVE_FORWARD;
             printf("Turn completed. Moving forward.\n");
             break;
@@ -266,7 +251,7 @@ int main(int argc, char **argv) {
         case AVOID_OBSTACLE_RIGHT:
             // To avoid obstacle by moving slightly to the right
             turn_right();
-            wb_robot_step(TIME_STEP * 7);  // Adjust as per requirement
+            wb_robot_step(TIME_STEP * 7);  
             move_forward();
             wb_robot_step(TIME_STEP * 3);
             current_state = RETURN_TO_ROW_LEFT;
@@ -275,7 +260,7 @@ int main(int argc, char **argv) {
         case AVOID_OBSTACLE_LEFT:
             // To avoid obstacle by moving slightly to the left
             turn_left();
-            wb_robot_step(TIME_STEP * 7);  // Adjust as per requirement
+            wb_robot_step(TIME_STEP * 7);  
             move_forward();
             wb_robot_step(TIME_STEP * 3);
             current_state = RETURN_TO_ROW_RIGHT;
@@ -284,19 +269,19 @@ int main(int argc, char **argv) {
         case RETURN_TO_ROW_RIGHT:
             // To return to the original row from the right side
             turn_right();
-            wb_robot_step(TIME_STEP * 7);  // Adjust as per requirement
+            wb_robot_step(TIME_STEP * 7);  
             current_state = MOVE_FORWARD;
             break;
 
         case RETURN_TO_ROW_LEFT:
             // To return to the original row from the left side
             turn_left();
-            wb_robot_step(TIME_STEP * 7);  // Adjust as per requirement
+            wb_robot_step(TIME_STEP * 7); 
             current_state = MOVE_FORWARD;
             break;
 
         case U_TURN:
-            performTurn(performAntiUTurn); // Toggle the anti U-turn flag
+            performTurn(performAntiUTurn); 
             performAntiUTurn = !performAntiUTurn;
             current_state = MOVE_FORWARD;
             printf("U-turn completed. Moving forward.\n");
