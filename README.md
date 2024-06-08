@@ -3,7 +3,7 @@
 
 
 <div align="center">
-  <img src="https://github.com/SalehBaaisharah/ChiliFarmRobot-ObstacleAvoidance/blob/main/Chili%20Farm.jpeg" alt="Chili Farm" width="400" />
+  <img src="https://github.com/SalehBaaisharah/ChiliFarmRobot-ObstacleAvoidance/blob/main/Chili%20Farm.jpeg" alt="Chili Farm" width="600" />
 </div>
 
 ## Table of Contents
