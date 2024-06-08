@@ -1,6 +1,10 @@
-# MODELLING OF MOBILE ROBOT OPTIMUM PARAMETER TUNING FOR AUTONOMOUS OPERATION OBSTACLE AVOIDANCE IN DENSELY PACKED SMALL-SCALE CHILI FARM
+# Optimizing Mobile Robot Parameters for Autonomous Navigation and Obstacle Avoidance in a Densely Packed Chili Farm
 
-![Chili Farm](Chili Farm.jpeg)
+
+
+<div align="center">
+  <img src="https://github.com/SalehBaaisharah/ChiliFarmRobot-ObstacleAvoidance/blob/main/Chili%20Farm.jpeg" alt="Chili Farm" width="400" />
+</div>
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -8,10 +12,8 @@
 3. [Objectives](#objectives)
 4. [Scope of Study](#scope-of-study)
 5. [Setup and Installation](#setup-and-installation)
-6. [Usage](#usage)
-7. [Contributing](#contributing)
-8. [License](#license)
-9. [Acknowledgements](#acknowledgements)
+6. [License](#license)
+
 
 ## Introduction
 This project focuses on optimizing the parameter tuning for a mobile robot designed to autonomously navigate through a densely packed small-scale chili farm. The goal is to enable efficient obstacle avoidance while adapting to the dynamic nature of the farm environment, including the growth and movement of chili plants.
@@ -39,12 +41,9 @@ In a small-scale chili farm, the dense arrangement of plants and the presence of
 
 ## Setup and Installation
 
-### Prerequisites
+### Prerequisite
 - [Webots](https://cyberbotics.com/) - A robotics simulation software.
-- A C compiler (e.g., GCC).
-- (Optional) Git for version control.
+   
+## License
 
-### Installation Steps
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/your-repository-name.git
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
